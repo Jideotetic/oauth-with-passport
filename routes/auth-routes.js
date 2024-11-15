@@ -8,7 +8,12 @@ authRouter.get("/login", (req, res) => {
 });
 
 authRouter.get("/logout", (req, res) => {
-  res.send("Logging out");
+  req.logout((err) => {
+    if (err) {
+      return next(err);
+    }
+    res.redirect("/");
+  });
 });
 
 authRouter.get(
@@ -22,8 +27,7 @@ authRouter.get(
   "/google/redirect",
   passport.authenticate("google"),
   (req, res) => {
-    console.log(req.query.code, req.query.scope);
-    res.send("Welcome");
+    res.redirect("/profile");
   }
 );
 
